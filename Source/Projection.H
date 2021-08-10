@@ -245,6 +245,8 @@ public:
     static int  make_sync_solvable;
     static amrex::Real divu_minus_s_factor;
     static int  add_vort_proj;
+    //! Options namespace for hypre solvers
+    static std::string hypre_namespace;
 
     void doMLMGNodalProjection(int c_lev, int nlevel,
                                const amrex::Vector<amrex::MultiFab*>& vel,
