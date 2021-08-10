@@ -45,6 +45,7 @@ int  Projection::do_outflow_bcs      = 1;
 int  Projection::rho_wgt_vel_proj    = 0;
 int  Projection::make_sync_solvable  = 0;
 Real Projection::divu_minus_s_factor = 0.0;
+std::string Projection::hypre_namespace = "hypre";
 
 namespace
 {
@@ -94,6 +95,9 @@ Projection::Initialize ()
     pp.query("Pcode",               P_code);
     if (P_code >=0 )
       amrex::Abort("proj.Pcode is no more. Use nodal_proj.verbose.\n");
+
+    ParmParse pp2("nodal_proj");
+    pp2.query("hypre_namespace", hypre_namespace);
 
     amrex::ExecOnFinalize(Projection::Finalize);
 
@@ -2527,6 +2531,7 @@ void Projection::doMLMGNodalProjection (int c_lev, int nlevel,
     // Setup nodal projector object
     NodalProjector  nodal_projector(vel_rebase, GetVecOfConstPtrs(sigma_rebase), mg_geom, info, rhcc_rebase, rhnd_rebase);
     nodal_projector.setDomainBC(mlmg_lobc, mlmg_hibc);
+    nodal_projector.getMLMG().setHypreOptionsNamespace(hypre_namespace);
 
 // WARNING: we set the strategy to Sigma to get exactly the same results as the no EB code
 // when we don't have interior geometry
