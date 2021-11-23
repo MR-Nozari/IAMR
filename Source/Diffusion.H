@@ -218,7 +218,8 @@ public:
 		      const amrex::MultiFab* const* beta,
 		      int                           betaComp,
 		      const amrex::MultiFab&        beta_cc);
-	   static void setEBDirichlet(amrex::MLEBABecLap&           op,
+
+    static void setEBDirichlet(amrex::MLEBABecLap&           op,
                                const amrex::MultiFab &EBValue,
                                const amrex::MultiFab &EBBeta);
     static bool useEBDirichlet() { return (Diffusion::use_EBDirichlet != 0); };
@@ -290,10 +291,9 @@ private:
     static int         do_reflux;
     static int         max_order;
     static int         tensor_max_order;
-	 #ifdef AMREX_USE_EB
+    #ifdef AMREX_USE_EB
     static int         use_EBDirichlet;
 #endif
 };
 
 #endif
-
